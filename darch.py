@@ -35,9 +35,10 @@ def use(login_page, login, password, archive_url, dir_path):
     driver.get(archive_url)
 
     WebDriverWait(driver, DELAY).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.previewPage>img')))
-    images = driver.find_elements_by_css_selector("div.previewPage>img")
+    divs = driver.find_elements_by_css_selector("div.previewPage")
+    div_ids = [div.get_attribute('id') for div in divs]
+    urls = [driver.execute_script(f'return getPreviewUrl({div_id})') for div_id in div_ids]
 
-    urls = [image.get_attribute("src") for image in images]
     modified_urls = [url.replace("VIEW", "IMAGE") for url in urls]
     cookies = {item["name"]: item["value"] for item in driver.get_cookies()}
 
