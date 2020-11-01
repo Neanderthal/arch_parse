@@ -53,8 +53,6 @@ def use(login_page, login, password, archive_url, dir_path):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    LOGIN = "+79119125372"
-    PASSWORD = "MooneyM20J"
     ARCHIVE_URL = "https://spbarchives.ru/infres?p_p_id=archiveStorePortlet&p_p_lifecycle=0&p_p_state=exclusive&p_p_mode=view&_archiveStorePortlet_mvcRenderCommandName=%2Fimagenavigator&_archiveStorePortlet_entityKind=Unit&_archiveStorePortlet_archiveAbbr=cgali&_archiveStorePortlet_entityId=112517"
 
     cli = argparse.ArgumentParser(description='''Download images from spbarchives.ru
