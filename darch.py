@@ -13,24 +13,46 @@ LOGIN_PAGE = "https://spbarchives.ru/home?p_p_id=com_liferay_login_web_portlet_L
 DELAY = 10
 PATH = "."
 
+def esia_login(driver, login_page, login, password):
+        driver.get(login_page)
+        enter_button = driver.find_element_by_link_text("Вход через ЕСИА")
+        res = enter_button.click()
+        login_input = driver.find_element_by_id("mobileOrEmail")
 
-def use(login_page, login, password, archive_url, dir_path):
-    # Use a breakpoint in the code line below to debug your script.
+        login_input.send_keys(login)
+
+        password_input = driver.find_element_by_id("password")
+        password_input.send_keys(password)
+
+        login_button = driver.find_element_by_id("loginByPwdButton")
+
+        login_button.click()
+
+def native_login(driver, login_page, login, password):
+        driver.get(login_page)
+        
+        login_input = driver.find_element_by_id("_com_liferay_login_web_portlet_LoginPortlet_login")
+
+        login_input.send_keys(login)
+
+        password_input = driver.find_element_by_id("_com_liferay_login_web_portlet_LoginPortlet_password")
+        password_input.send_keys(password)
+
+        login_button = driver.find_element_by_id("login-btn")
+
+        login_button.click()
+        
+def use(login_page, login, password, archive_url, dir_path, esia):
     driver = webdriver.Firefox()
-    driver.get(login_page)
 
-    enter_button = driver.find_element_by_link_text("Вход через ЕСИА")
-    res = enter_button.click()
-    login_input = driver.find_element_by_id("mobileOrEmail")
-
-    login_input.send_keys(login)
-
-    password_input = driver.find_element_by_id("password")
-    password_input.send_keys(password)
-
-    login_button = driver.find_element_by_id("loginByPwdButton")
-
-    login_button.click()
+    if esia:
+        print(f"Логин с использованием ESIA {login}")
+        esia_login(driver, login_page, login, password)
+    else:
+        print(f"Логин на портаде {login}")
+        native_login(driver, login_page, login, password)
+        
+        
     WebDriverWait(driver, DELAY).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'span.site-title')))
     driver.get(archive_url)
 
@@ -64,6 +86,8 @@ if __name__ == '__main__':
     cli.add_argument('--url', '-u', type=str, required=True, help='URL to download')
     cli.add_argument('--dir', '-d', type=str, required=True, help='path to save files')
     cli.add_argument('--login_page', '-i', type=str, required=False, help='URL to login page')
+    cli.add_argument('--esia', '-e', help='Login with Gosuslugi', action="store_true")
     args = cli.parse_args()
+    print(f"ESIA {args.esia}")
     login_page = args.login_page if args.login_page else LOGIN_PAGE
-    use(login_page, args.login, args.password, args.url, args.dir)
+    use(login_page, args.login, args.password, args.url, args.dir, args.esia)
