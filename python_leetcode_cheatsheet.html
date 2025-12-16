@@ -1,0 +1,866 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Python LeetCode Cheatsheet — Infographic</title>
+  <style>
+    :root{
+      --bg0:#0b1220;
+      --bg1:#0f1a2f;
+      --card:#121f3a;
+      --card2:#0f1a30;
+      --ink:#eaf0ff;
+      --muted:#b7c3e6;
+      --muted2:#92a2cf;
+      --line:rgba(255,255,255,.10);
+      --line2:rgba(255,255,255,.06);
+      --glow:rgba(120, 180, 255, .18);
+      --accent:#79b8ff;
+      --accent2:#a78bfa;
+      --accent3:#34d399;
+      --accent4:#fbbf24;
+      --danger:#fb7185;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      --r: 18px;
+      --shadow: 0 18px 60px rgba(0,0,0,.35);
+      --shadow2: 0 12px 30px rgba(0,0,0,.25);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      color:var(--ink);
+      background:
+        radial-gradient(900px 600px at 12% 10%, rgba(121,184,255,.16), transparent 60%),
+        radial-gradient(700px 500px at 85% 15%, rgba(167,139,250,.14), transparent 60%),
+        radial-gradient(700px 600px at 60% 92%, rgba(52,211,153,.12), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1) 55%, var(--bg0));
+      overflow-x:hidden;
+    }
+
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    .wrap{
+      width:min(1180px, 92vw);
+      margin:0 auto;
+      padding:32px 0 60px;
+    }
+
+    /* Header */
+    header{
+      position:relative;
+      padding:28px 22px 20px;
+      border:1px solid var(--line);
+      border-radius:calc(var(--r) + 6px);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03)),
+        radial-gradient(800px 240px at 40% 0%, rgba(121,184,255,.16), transparent 70%),
+        radial-gradient(700px 260px at 90% 10%, rgba(167,139,250,.14), transparent 72%),
+        rgba(18,31,58,.55);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .toprow{
+      display:flex;
+      gap:18px;
+      align-items:flex-start;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+
+    .title{
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
+    }
+    .badge{
+      width:46px; height:46px;
+      border-radius:14px;
+      display:grid; place-items:center;
+      background:
+        linear-gradient(135deg, rgba(121,184,255,.22), rgba(167,139,250,.22)),
+        rgba(15,26,48,.65);
+      border:1px solid var(--line);
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+      font-size:22px;
+    }
+    h1{
+      margin:0;
+      font-size: clamp(22px, 2.3vw, 32px);
+      letter-spacing:.2px;
+      line-height:1.1;
+    }
+    .sub{
+      margin-top:6px;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.5;
+      max-width:70ch;
+    }
+
+    .pillbar{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:flex-end;
+    }
+    .pill{
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(15,26,48,.55);
+      color:var(--muted);
+      font-size:12px;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      box-shadow: var(--shadow2);
+      user-select:none;
+      white-space:nowrap;
+    }
+    .dot{
+      width:8px;height:8px;border-radius:999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(121,184,255,.15);
+    }
+    .dot.p2{background:var(--accent2); box-shadow:0 0 0 4px rgba(167,139,250,.14)}
+    .dot.p3{background:var(--accent3); box-shadow:0 0 0 4px rgba(52,211,153,.14)}
+    .dot.p4{background:var(--accent4); box-shadow:0 0 0 4px rgba(251,191,36,.14)}
+
+    .toc{
+      margin-top:18px;
+      padding-top:14px;
+      border-top:1px solid var(--line2);
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .toc a{
+      font-size:12px;
+      color:var(--muted);
+      border:1px solid var(--line);
+      background: rgba(15,26,48,.45);
+      padding:7px 10px;
+      border-radius:999px;
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      box-shadow: 0 10px 25px rgba(0,0,0,.18);
+    }
+    .toc a:hover{color:var(--ink); border-color:rgba(121,184,255,.35)}
+    .toc span{opacity:.95}
+
+    /* Grid layout */
+    .grid{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:14px;
+    }
+
+    .card{
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)),
+        rgba(18,31,58,.52);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+      position:relative;
+      backdrop-filter: blur(8px);
+    }
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-1px -1px auto -1px;
+      height:3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3), var(--accent4));
+      opacity:.75;
+    }
+    .card.hi::before{
+      height:4px;
+      opacity:.9;
+    }
+
+    .card .hd{
+      padding:14px 16px 10px;
+      border-bottom:1px solid var(--line2);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .card .hd .left{
+      display:flex; gap:10px; align-items:center;
+      min-width:0;
+    }
+    .icon{
+      width:34px;height:34px;border-radius:12px;
+      display:grid;place-items:center;
+      border:1px solid var(--line);
+      background:
+        radial-gradient(16px 16px at 30% 30%, rgba(121,184,255,.24), transparent 70%),
+        rgba(15,26,48,.55);
+      font-size:16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,.22);
+      flex:0 0 auto;
+    }
+    .card h2{
+      margin:0;
+      font-size:14px;
+      letter-spacing:.3px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .meta{
+      font-size:11px;
+      color:var(--muted2);
+      border:1px solid var(--line);
+      padding:6px 9px;
+      border-radius:999px;
+      background: rgba(15,26,48,.42);
+      white-space:nowrap;
+    }
+    .card .bd{
+      padding:14px 16px 16px;
+    }
+
+    .note{
+      margin:0 0 10px;
+      padding:10px 12px;
+      border-radius:14px;
+      background: rgba(121,184,255,.08);
+      border:1px solid rgba(121,184,255,.18);
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.45;
+    }
+    .warn{
+      background: rgba(251,113,133,.08);
+      border-color: rgba(251,113,133,.18);
+    }
+
+    pre{
+      margin:0;
+      padding:12px 12px;
+      border-radius:14px;
+      background: rgba(10, 16, 30, .7);
+      border:1px solid rgba(255,255,255,.08);
+      overflow:auto;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.2);
+    }
+    code, pre{
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 1.5;
+      color: #e9edff;
+    }
+
+    .cols{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    @media (max-width: 980px){
+      .grid{grid-template-columns: 1fr}
+      .cols{grid-template-columns: 1fr}
+    }
+
+    /* Spans in the 12-col grid */
+    .c12{grid-column: span 12}
+    .c8{grid-column: span 8}
+    .c6{grid-column: span 6}
+    .c4{grid-column: span 4}
+    .c3{grid-column: span 3}
+
+    @media (max-width: 980px){
+      .c8,.c6,.c4,.c3,.c12{grid-column: span 12}
+    }
+
+    /* Footer */
+    footer{
+      margin-top:16px;
+      padding:14px 16px;
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      background: rgba(18,31,58,.35);
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.5;
+      box-shadow: var(--shadow2);
+    }
+
+    /* Print-friendly */
+    @media print{
+      body{background:#fff;color:#000}
+      header, .card, footer{
+        box-shadow:none;
+        background:#fff;
+        border:1px solid #ddd;
+      }
+      pre{background:#f7f7f7;color:#111;border-color:#e5e5e5}
+      .toc a, .pill{box-shadow:none}
+      .card::before{display:none}
+      .badge,.icon{background:#f1f1f1;border-color:#ddd; box-shadow:none}
+      .note{background:#f5faff;border-color:#cfe6ff}
+      .warn{background:#fff5f6;border-color:#ffd0d8}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="toprow">
+        <div class="title">
+          <div class="badge">🐍</div>
+          <div>
+            <h1>Python Cheatsheet for LeetCode Tasks</h1>
+            <div class="sub">
+              Infographic-style reference: fast patterns, copy-paste templates, and the “usual suspects”
+              you’ll use in interviews and competitive programming.
+            </div>
+          </div>
+        </div>
+
+        <div class="pillbar">
+          <div class="pill"><span class="dot"></span><span>Arrays & Pointers</span></div>
+          <div class="pill"><span class="dot p2"></span><span>Graphs & Trees</span></div>
+          <div class="pill"><span class="dot p3"></span><span>DP & Backtracking</span></div>
+          <div class="pill"><span class="dot p4"></span><span>Binary Search & Heaps</span></div>
+        </div>
+      </div>
+
+      <nav class="toc" aria-label="Table of contents">
+        <a href="#imports"><span>🧰</span> Imports</a>
+        <a href="#io"><span>⌨️</span> IO</a>
+        <a href="#ints"><span>🔢</span> Integers</a>
+        <a href="#arrays"><span>🧱</span> Arrays</a>
+        <a href="#hash"><span>🗂️</span> Hash & Set</a>
+        <a href="#sort"><span>🧲</span> Sorting & Heaps</a>
+        <a href="#bsearch"><span>🎯</span> Binary Search</a>
+        <a href="#strings"><span>🔤</span> Strings</a>
+        <a href="#graphs"><span>🕸️</span> Graphs</a>
+        <a href="#trees"><span>🌳</span> Trees</a>
+        <a href="#dp"><span>🧠</span> DP</a>
+        <a href="#bt"><span>🧩</span> Backtracking</a>
+        <a href="#bits"><span>⚡</span> Bits</a>
+        <a href="#math"><span>🧮</span> Math</a>
+        <a href="#templates"><span>🧷</span> Templates</a>
+      </nav>
+    </header>
+
+    <main class="grid">
+
+      <!-- 0) Imports -->
+      <section class="card hi c6" id="imports">
+        <div class="hd">
+          <div class="left">
+            <div class="icon">🧰</div>
+            <h2>0) Imports you’ll actually use</h2>
+          </div>
+          <div class="meta">copy/paste</div>
+        </div>
+        <div class="bd">
+          <pre><code>from collections import deque, Counter, defaultdict
+from heapq import heappush, heappop, heapify
+from bisect import bisect_left, bisect_right
+from itertools import accumulate, combinations, permutations
+from math import gcd, lcm, inf</code></pre>
+        </div>
+      </section>
+
+      <!-- 1) IO -->
+      <section class="card c6" id="io">
+        <div class="hd">
+          <div class="left">
+            <div class="icon">⌨️</div>
+            <h2>1) Input / Output (if needed)</h2>
+          </div>
+          <div class="meta">local testing</div>
+        </div>
+        <div class="bd">
+          <p class="note">LeetCode usually passes function arguments, but this helps for running locally.</p>
+          <pre><code>import sys
+data = sys.stdin.read().strip().split()
+it = iter(data)
+n = int(next(it))
+arr = [int(next(it)) for _ in range(n)]</code></pre>
+        </div>
+      </section>
+
+      <!-- 2) Integers -->
+      <section class="card c8" id="ints">
+        <div class="hd">
+          <div class="left">
+            <div class="icon">🔢</div>
+            <h2>2) Integers: division, digits, parity</h2>
+          </div>
+          <div class="meta">fast ops</div>
+        </div>
+        <div class="bd">
+          <div class="cols">
+            <pre><code>q, r = divmod(n, 10)   # quotient + remainder
+n //= 10               # drop last digit
+last = n % 10          # last digit
+is_even = (n & 1) == 0 # bit trick</code></pre>
+            <pre><code>digits = []
+x = abs(n)
+while x:
+    x, d = divmod(x, 10)
+    digits.append(d)
+digits.reverse()</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3) Arrays -->
+      <section class="card c4" id="arrays">
+        <div class="hd">
+          <div class="left">
+            <div class="icon">🧱</div>
+            <h2>3) Arrays / Lists: common tricks</h2>
+          </div>
+          <div class="meta">core</div>
+        </div>
+        <div class="bd">
+          <pre><code>arr.append(x)
+arr.pop()                 # stack
+arr[::-1]                 # reverse copy
+arr.reverse()             # in-place
+sorted_arr = sorted(arr)
+arr.sort()</code></pre>
+
+          <p class="note">Two pointers template:</p>
+          <pre><code>l, r = 0, len(a) - 1
+while l < r:
+    # use a[l], a[r]
+    if condition:
+        l += 1
+    else:
+        r -= 1</code></pre>
+
+          <p class="note">Sliding window (count / constraint):</p>
+          <pre><code>l = 0
+for r, x in enumerate(a):
+    # add x
+    while bad():
+        # remove a[l]
+        l += 1
+    # window [l..r] is valid</code></pre>
+
+          <p class="note">Prefix sums:</p>
+          <pre><code>pref = [0]
+for x in a:
+    pref.append(pref[-1] + x)
+# sum of a[l:r] = pref[r] - pref[l]</code></pre>
+        </div>
+      </section>
+
+      <!-- 4) Hash -->
+      <section class="card c4" id="hash">
+        <div class="hd">
+          <div class="left">
+            <div class="icon">🗂️</div>
+            <h2>4) Hash maps / sets</h2>
+          </div>
+          <div class="meta">O(1) avg</div>
+        </div>
+        <div class="bd">
+          <pre><code>seen = set()
+mp = {}
+mp.get(key, 0)</code></pre>
+
+          <p class="note">Counter:</p>
+          <pre><code>cnt = Counter(a)
+cnt.most_common(3)</code></pre>
+
+          <p class="note">Defaultdict:</p>
+          <pre><code>g = defaultdict(list)
+g[u].append(v)</code></pre>
+        </div>
+      </section>
+
+      <!-- 5) Sorting + Heaps -->
+      <section class="card c4" id="sort">
+        <div class="hd">
+          <div class="left">
+            <div class="icon">🧲</div>
+            <h2>5) Sorting patterns</h2>
+          </div>
+          <div class="meta">key / heap</div>
+        </div>
+        <div class="bd">
+          <p class="note">Sort by key:</p>
+          <pre><code>a.sort(key=lambda x: (x[0], -x[1]))</code></pre>
+
+          <p class="note">Top-K with heap:</p>
+          <pre><code>h = []
+for x in nums:
+    heappush(h, x)
+    if len(h) > k:
+        heappop(h)
+# h contains k largest (min-heap)</code></pre>
+
+          <p class="note">Max-heap:</p>
+          <pre><code>heappush(h, -x)
+x = -heappop(h)</code></pre>
+        </div>
+      </section>
+
+      <!-- 6) Binary Search -->
+      <section class="card c6" id="bsearch">
+        <div class="hd">
+          <div class="left">
+            <div class="icon">🎯</div>
+            <h2>6) Binary search (bisect)</h2>
+          </div>
+          <div class="meta">monotonic</div>
+        </div>
+        <div class="bd">
+          <p class="note">Basic:</p>
+          <pre><code>i = bisect_left(a, target)      # first >= target
+j = bisect_right(a, target)     # first > target
+count = j - i</code></pre>
+
+          <p class="note">Binary search on answer (monotonic predicate):</p>
+          <pre><code>lo, hi = 0, 10**9
+while lo < hi:
+    mid = (lo + hi) // 2
+    if ok(mid):
+        hi = mid
+    else:
+        lo = mid + 1
+return lo</code></pre>
+        </div>
+      </section>
+
+      <!-- 7) Strings -->
+      <section class="card c6" id="strings">
+        <div class="hd">
+          <div class="left">
+            <div class="icon">🔤</div>
+            <h2>7) Strings</h2>
+          </div>
+          <div class="meta">classic</div>
+        </div>
+        <div class="bd">
+          <p class="note">Common:</p>
+          <pre><code>s.strip()
+s.split()
+"".join(parts)
+s.isalnum()</code></pre>
+
+          <p class="note">Frequency:</p>
+          <pre><code>cnt = Counter(s)</code></pre>
+
+          <p class="note">Two pointers on string:</p>
+          <pre><code>l, r = 0, len(s) - 1
+while l < r:
+    if s[l] != s[r]: return False
+    l += 1; r -= 1</code></pre>
+        </div>
+      </section>
+
+      <!-- 8) Graphs -->
+      <section class="card c8" id="graphs">
+        <div class="hd">
+          <div class="left">
+            <div class="icon">🕸️</div>
+            <h2>8) Graphs</h2>
+          </div>
+          <div class="meta">BFS / DFS / topo / DSU</div>
+        </div>
+        <div class="bd">
+          <p class="note">Adj list:</p>
+          <pre><code>g = defaultdict(list)
+for u, v in edges:
+    g[u].append(v)
+    g[v].append(u)   # if undirected</code></pre>
+
+          <p class="note">BFS (shortest in unweighted graph):</p>
+          <pre><code>def bfs(start):
+    q = deque([start])
+    dist = {start: 0}
+    while q:
+        u = q.popleft()
+        for v in g[u]:
+            if v not in dist:
+                dist[v] = dist[u] + 1
+                q.append(v)
+    return dist</code></pre>
+
+          <p class="note">DFS (iterative to avoid recursion limit):</p>
+          <pre><code>stack = [start]
+seen = set([start])
+while stack:
+    u = stack.pop()
+    for v in g[u]:
+        if v not in seen:
+            seen.add(v)
+            stack.append(v)</code></pre>
+
+          <p class="note">Topological sort (Kahn):</p>
+          <pre><code>indeg = Counter()
+for u in g:
+    for v in g[u]:
+        indeg[v] += 1
+
+q = deque([u for u in nodes if indeg[u] == 0])
+order = []
+while q:
+    u = q.popleft()
+    order.append(u)
+    for v in g[u]:
+        indeg[v] -= 1
+        if indeg[v] == 0:
+            q.append(v)</code></pre>
+
+          <p class="note">Union-Find (DSU):</p>
+          <pre><code>class DSU:
+    def __init__(self, n):
+        self.p = list(range(n))
+        self.r = [0]*n
+    def find(self, x):
+        while self.p[x] != x:
+            self.p[x] = self.p[self.p[x]]
+            x = self.p[x]
+        return x
+    def union(self, a, b):
+        ra, rb = self.find(a), self.find(b)
+        if ra == rb: return False
+        if self.r[ra] < self.r[rb]:
+            ra, rb = rb, ra
+        self.p[rb] = ra
+        if self.r[ra] == self.r[rb]:
+            self.r[ra] += 1
+        return True</code></pre>
+        </div>
+      </section>
+
+      <!-- 9) Trees -->
+      <section class="card c4" id="trees">
+        <div class="hd">
+          <div class="left">
+            <div class="icon">🌳</div>
+            <h2>9) Trees</h2>
+          </div>
+          <div class="meta">DFS / BFS</div>
+        </div>
+        <div class="bd">
+          <p class="note">Typical node:</p>
+          <pre><code># class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right</code></pre>
+
+          <p class="note">DFS recursion:</p>
+          <pre><code>def dfs(node):
+    if not node:
+        return 0
+    left = dfs(node.left)
+    right = dfs(node.right)
+    return 1 + max(left, right)</code></pre>
+
+          <p class="note">BFS level order:</p>
+          <pre><code>q = deque([root])
+while q:
+    for _ in range(len(q)):
+        node = q.popleft()
+        if node.left: q.append(node.left)
+        if node.right: q.append(node.right)</code></pre>
+        </div>
+      </section>
+
+      <!-- 10) DP -->
+      <section class="card c6" id="dp">
+        <div class="hd">
+          <div class="left">
+            <div class="icon">🧠</div>
+            <h2>10) Dynamic Programming</h2>
+          </div>
+          <div class="meta">1D / 2D / memo</div>
+        </div>
+        <div class="bd">
+          <p class="note">1D DP (coin change / ways):</p>
+          <pre><code>dp = [0]*(target+1)
+dp[0] = 1
+for x in nums:
+    for s in range(x, target+1):
+        dp[s] += dp[s-x]</code></pre>
+
+          <p class="note">2D DP (grid paths):</p>
+          <pre><code>m, n = len(grid), len(grid[0])
+dp = [[0]*n for _ in range(m)]
+dp[0][0] = 1
+for i in range(m):
+    for j in range(n):
+        if i==0 and j==0: continue
+        dp[i][j] = (dp[i-1][j] if i else 0) + (dp[i][j-1] if j else 0)</code></pre>
+
+          <p class="note">Memoization:</p>
+          <pre><code>from functools import lru_cache
+
+@lru_cache(None)
+def f(i, state):
+    if i == n: return 0
+    return max(...)</code></pre>
+        </div>
+      </section>
+
+      <!-- 11) Backtracking -->
+      <section class="card c6" id="bt">
+        <div class="hd">
+          <div class="left">
+            <div class="icon">🧩</div>
+            <h2>11) Backtracking</h2>
+          </div>
+          <div class="meta">subsets / perms</div>
+        </div>
+        <div class="bd">
+          <p class="note">Subsets:</p>
+          <pre><code>res = []
+path = []
+def bt(i):
+    if i == n:
+        res.append(path[:]); return
+    bt(i+1)
+    path.append(a[i])
+    bt(i+1)
+    path.pop()
+bt(0)</code></pre>
+
+          <p class="note">Permutations:</p>
+          <pre><code>res = []
+used = [False]*n
+path = []
+def bt():
+    if len(path) == n:
+        res.append(path[:]); return
+    for i in range(n):
+        if used[i]: continue
+        used[i] = True
+        path.append(a[i])
+        bt()
+        path.pop()
+        used[i] = False
+bt()</code></pre>
+        </div>
+      </section>
+
+      <!-- 12) Bits -->
+      <section class="card c6" id="bits">
+        <div class="hd">
+          <div class="left">
+            <div class="icon">⚡</div>
+            <h2>12) Bits</h2>
+          </div>
+          <div class="meta">masks</div>
+        </div>
+        <div class="bd">
+          <pre><code>x & -x         # lowest set bit
+x.bit_count()  # popcount (Python 3.8? -> use bin(x).count("1"))
+x >> k, x << k
+mask = 1 << i</code></pre>
+
+          <p class="note">Iterate subsets:</p>
+          <pre><code>sub = mask
+while sub:
+    sub = (sub - 1) & mask</code></pre>
+        </div>
+      </section>
+
+      <!-- 13) Math -->
+      <section class="card c6" id="math">
+        <div class="hd">
+          <div class="left">
+            <div class="icon">🧮</div>
+          
+            <h2>13) Math shortcuts</h2>
+          </div>
+          <div class="meta">gcd / sieve</div>
+        </div>
+        <div class="bd">
+          <pre><code>g = gcd(a, b)
+L = lcm(a, b)
+pow(a, b, mod)   # fast modular exponent</code></pre>
+
+          <p class="note">Prime sieve:</p>
+          <pre><code>n = 10**6
+is_prime = [True]*(n+1)
+is_prime[0]=is_prime[1]=False
+p = 2
+while p*p <= n:
+    if is_prime[p]:
+        for x in range(p*p, n+1, p):
+            is_prime[x] = False
+    p += 1</code></pre>
+        </div>
+      </section>
+
+      <!-- 14) Templates -->
+      <section class="card hi c12" id="templates">
+        <div class="hd">
+          <div class="left">
+            <div class="icon">🧷</div>
+            <h2>14) “Always useful” templates</h2>
+          </div>
+          <div class="meta">ready-to-use</div>
+        </div>
+        <div class="bd">
+          <div class="cols">
+            <div>
+              <p class="note">Fast visited grid BFS</p>
+              <pre><code>DIRS = [(1,0),(-1,0),(0,1),(0,-1)]
+m, n = len(grid), len(grid[0])
+q = deque([(0,0)])
+seen = {(0,0)}
+while q:
+    i, j = q.popleft()
+    for di, dj in DIRS:
+        ni, nj = i+di, j+dj
+        if 0 <= ni < m and 0 <= nj < n and (ni,nj) not in seen and grid[ni][nj] != 1:
+            seen.add((ni,nj))
+            q.append((ni,nj))</code></pre>
+            </div>
+
+            <div>
+              <p class="note">Kadane (max subarray sum)</p>
+              <pre><code>best = -inf
+cur = 0
+for x in nums:
+    cur = max(x, cur + x)
+    best = max(best, cur)</code></pre>
+
+              <p class="note">Two Sum</p>
+              <pre><code>mp = {}
+for i, x in enumerate(nums):
+    if target - x in mp:
+        return [mp[target - x], i]
+    mp[x] = i</code></pre>
+
+              <p class="note warn">Tip: Python 3.8 popcount</p>
+              <pre><code>bin(x).count("1")</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <strong>How to use:</strong> keep this open in a side tab during practice. Print via browser (it’s print-friendly).
+      For interviews, focus on recognizing which “pattern card” matches the problem (two pointers, BFS, DP, etc.).
+    </footer>
+  </div>
+</body>
+</html>
